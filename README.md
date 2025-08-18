@@ -1,0 +1,1 @@
+Xolodilnik Project using Django, DRF
