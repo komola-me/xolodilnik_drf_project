@@ -45,6 +45,11 @@ LOCAL_APPS = [
     'users',
     'products',
     'blog',
+
+    'promotions',
+
+    'cart',
+    'order',
 ]
 
 EXTERNAL_APPS = [
