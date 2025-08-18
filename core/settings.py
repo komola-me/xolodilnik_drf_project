@@ -43,6 +43,8 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'common',
     'users',
+    'products',
+    'blog',
 ]
 
 EXTERNAL_APPS = [
