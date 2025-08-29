@@ -56,6 +56,7 @@ LOCAL_APPS = [
 EXTERNAL_APPS = [
     'daphne',
     'rest_framework',
+    'rest_framework_simplejwt',
     'drf_spectacular',
     'drf_spectacular_sidecar',
 ]
@@ -64,14 +65,18 @@ INSTALLED_APPS = EXTERNAL_APPS + LOCAL_APPS + DJANGO_APPS
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Xolodilnik DRF Project API',
-    'DESCRIPTION': 'Xolodilnik Project using DRF',
+    'TITLE': 'VegeFoods Clone DRF Project API',
+    'DESCRIPTION': 'VegeFoods Clone Project using DRF',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 
@@ -173,3 +178,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+}
