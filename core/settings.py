@@ -50,6 +50,7 @@ LOCAL_APPS = [
 
     'cart',
     'order',
+    'payments',
 ]
 
 EXTERNAL_APPS = [
