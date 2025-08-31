@@ -30,7 +30,8 @@ class BlogPost(BaseModel):
 
 
 class PostCategory(BaseModel):
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150, unique=True, verbose_name=_("Category Name"))
+    slug = models.SlugField(verbose_name=_("slug"))
     is_active = models.BooleanField(default=True, verbose_name=_("Is Active"))
 
     class Meta:
@@ -44,6 +45,7 @@ class PostCategory(BaseModel):
 
 class Tag(BaseModel):
     name = models.CharField(max_length=50, unique=True, verbose_name=_("Tag Name"))
+    slug = models.SlugField(verbose_name=_("slug"))
 
     class Meta:
         verbose_name = _("Tag")

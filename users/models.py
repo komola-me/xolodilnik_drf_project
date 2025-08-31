@@ -13,6 +13,8 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     last_name = models.CharField(max_length=50, null=True, blank=True, verbose_name=_("Last Name"))
     avatar = models.ImageField(upload_to="avatars/", null=True, blank=True, verbose_name=_("Avatar"))
 
+    username = models.SlugField(max_length=50, unique=True, null=True, blank=True)
+
     profession = models.ForeignKey("users.Profession", on_delete=models.RESTRICT, null=True, blank=True, related_name="users", verbose_name=_("User Profession"))
     wishlist = models.ManyToManyField(
         "products.ProductVariant",
