@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import User
+from .tasks import send_register_email
 
 class UserRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -18,5 +19,7 @@ class UserRegisterSerializer(serializers.Serializer):
             password=self.validated_data["password"],
             is_confirmed=False,
         )
+
+        send_register_email.delay(user_id=user.id, email=user.email)
 
         return user
