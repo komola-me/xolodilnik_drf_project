@@ -23,3 +23,17 @@ class UserRegisterSerializer(serializers.Serializer):
         send_register_email.delay(user_id=user.id, email=user.email)
 
         return user
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "created_at",
+            "updated_at"
+        ]

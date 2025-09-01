@@ -6,9 +6,10 @@ import jwt
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from users.models import User
-from .serializers import UserRegisterSerializer
+from .serializers import UserRegisterSerializer, UserDetailSerializer
 
 # Create your views here.
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -32,3 +33,27 @@ class EmailConfirmationAPIView(APIView):
         user.save()
 
         return Response(data={"status": "User has been confirmed"}, status=status.HTTP_200_OK)
+
+
+class UserProfileAPIView(APIView):
+    serializer_class = UserDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
