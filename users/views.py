@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 from users.models import User
-from .serializers import UserRegisterSerializer, UserDetailSerializer
+from .serializers import UserRegisterSerializer, UserProfileSerializer
 
 # Create your views here.
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -36,7 +36,7 @@ class EmailConfirmationAPIView(APIView):
 
 
 class UserProfileAPIView(APIView):
-    serializer_class = UserDetailSerializer
+    serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):

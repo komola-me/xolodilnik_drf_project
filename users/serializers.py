@@ -1,7 +1,15 @@
 from rest_framework import serializers
 
-from .models import User
+from .models import User, Profession
 from .tasks import send_register_email
+from .services import update_user_with_profession
+
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = ["id", "name"]
+
 
 class UserRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -25,15 +33,24 @@ class UserRegisterSerializer(serializers.Serializer):
         return user
 
 
-class UserDetailSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
+    profession = ProfessionSerializer()
+
     class Meta:
         model = User
         fields = [
             "id",
             "email",
+            "username",
             "first_name",
             "last_name",
             "phone_number",
+            "avatar",
+            "profession",
             "created_at",
-            "updated_at"
+            "updated_at",
         ]
+        read_only_fields = ("id", "username", "email")
+
+    def update(self, instance, validated_data):
+        return update_user_with_profession(instance, validated_data)
